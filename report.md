@@ -73,11 +73,36 @@
 
 ## Table design
 
+We will populate a PostgreSQL table using our observations. Since there are no
+other tables (and thus no need for foreign keys), we will use the observation
+date as the primary key. This ensures that there is a single observation for
+a given date, and that each observation can be uniquely identified by its date.
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| `date` | `DATE` | `PRIMARY KEY` | The date of the time series observation. |
+| `debt_value` | `DECIMAL(10, 2)` | `NOT NULL` | The value of the ICE BofA U.S. Corporate Index. This is a proxy for the debt market. |
+| `real_value` | `DECIMAL(10, 2)` | `NOT NULL` | The value of the S&P Case–Shiller Index. This is a proxy for the real estate market. 
+| `equity_return` | `DOUBLE PRECISION` | `NOT NULL` | The total return of the S&P 500 Index. This is a proxy for the return of the equity market. |
+| `risk_free_rate` | `DOUBLE PRECISION` | `NOT NULL` | The 10-year U.S. Treasury yield. This is a proxy for the risk-free rate. |
+| `party` | `INTEGER` | `NOT NULL` | The U.S. presidential party: `0` indicates the Democratic Party; `1` indicates the Republican Party. |
+
+We can convert this specification into a SQL command:
+
+```sql
+CREATE TABLE observation
+(
+    "date"         DATE             PRIMARY KEY,
+    debt_value     DECIMAL(10, 2)   NOT NULL,
+    real_value     DECIMAL(10, 2)   NOT NULL,
+    equity_return  DOUBLE PRECISION NOT NULL,
+    risk_free_rate DOUBLE PRECISION NOT NULL,
+    party          INTEGER          NOT NULL
+);
+``
 
 ## Import
 
-
 ## Database information
-
 
 ## Query results
