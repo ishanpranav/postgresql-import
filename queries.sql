@@ -91,5 +91,15 @@ GROUP BY party
 ORDER BY count DESC
 ;
 
--- 11. write a comment about your query 11
--- 12. write a comment about your query 12
+-- 11. average values by party
+
+SELECT
+    party,
+    AVG(equity_return) AS average_equity_return,
+    AVG(risk_free_rate) AS average_risk_free_rate
+FROM observation
+GROUP BY party
+ORDER BY party
+;
+
+-- 12. sharpe ratios

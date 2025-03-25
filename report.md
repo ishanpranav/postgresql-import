@@ -412,6 +412,9 @@ ORDER BY count DESC
 (2 rows)
 ```
 
+In recent memory, the number of years with a Democratic president has been
+roughly equal to the number of years with a Republican president.
+
 10. Now, we can count only the years with positive equity returns to determine
   which party coincided with positive returns more often.
 
@@ -434,4 +437,33 @@ ORDER BY count DESC
 (2 rows)
 ```
 
-11. 
+In this sample, the Democratic Party coincides with positive equity returns
+more often than the Republican Party.
+
+11. Again grouping by party, we can compute the average returns and risk-free
+  rates under each party.
+
+```sql
+SELECT
+    party,
+    AVG(equity_return) AS average_equity_return,
+    AVG(risk_free_rate) AS average_risk_free_rate
+FROM observation
+GROUP BY party
+ORDER BY party
+;
+```
+
+```
+ party | average_equity_return | average_risk_free_rate
+-------+-----------------------+------------------------
+ D     |    15.882105263157895 |     4.0884210526315785
+ R     |     8.368888888888888 |      4.896111111111112
+(2 rows)
+```
+
+In this sample, although the average risk-free rates are close (about 4 percent
+compared with around 5 percent), the average equity returns are very different
+(around 15 percent compared with around 8 percent).
+
+12. 
