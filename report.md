@@ -188,6 +188,8 @@ SELECT COUNT(*) FROM observation;
 (1 row)
 ```
 
+There are 37 rows in the database.
+
 2. We can also display the date, S&P 500 Index total return, and 10-year U.S.
   Treasury yield for the first 15 years in the time series.
 
@@ -219,6 +221,9 @@ LIMIT 15
 (15 rows)
 ```
 
+The first 15 rows show a range of equity returns, and risk-free rates ranging
+from about 5 percent to as high as 9 percent.
+
 3. We can sort the observations in reverse chronological order, choosing only
   the most recent 15 years.
 
@@ -247,8 +252,12 @@ LIMIT 15
 2012-01-01 |            16 |           1.78
 2011-01-01 |          2.11 |           1.89
 2010-01-01 |         15.06 |            3.3
- 2009-01-01 |         26.46 |           3.85
+2009-01-01 |         26.46 |           3.85
 ```
+
+In the most recent 15 years, risk-free rates are much lower. In some years, the
+risk-free rate was less than 1 percent; and, in the last 15 years, it did not
+reach 4 percent.
 
 4. Next, we can add a new column for the total return of the ICE BofA U.S. Corporate Index.
 
@@ -321,21 +330,64 @@ SELECT DISTINCT party FROM observation;
 (2 rows)
 ```
 
-7. Now, we can group years by political party and count the number of years in each group.
+As expected, there are two political parties represented in the data.
+
+7. Now, we can group years by the risk-free rate (rounded to the nearest 1
+  percent) and count the number of years in each rate environment.
 
 ```sql
-SELECT party, COUNT(*)
+SELECT
+    ROUND(risk_free_rate) AS risk_free_percent,
+    COUNT(*) AS count
 FROM observation
-GROUP BY party
+GROUP BY risk_free_percent
+ORDER BY risk_free_percent
 ;
 ```
 
 ```
- party | count
--------+-------
- R     |    18
- D     |    19
-(2 rows)
+ risk_free_percent | count
+-------------------+-------
+                 1 |     1
+                 2 |     9
+                 3 |     3
+                 4 |     8
+                 5 |     4
+                 6 |     5
+                 7 |     2
+                 8 |     3
+                 9 |     2
+(9 rows)
 ```
 
-8. Finally, 
+The risk-free rate is most often between 2 and 4 percent, with the highest
+number of years experiencing a 10-year U.S. Treasury yield nearest to 2
+percent.
+
+8. Finally, we can filter this grouping to exclude outliers (groups with only a
+  single year).
+
+```sql
+SELECT
+    ROUND(risk_free_rate) AS risk_free_percent,
+    COUNT(*) AS count
+FROM observation
+GROUP BY risk_free_percent
+HAVING COUNT(*) > 1
+ORDER BY count DESC
+;
+```
+
+```
+ risk_free_percent | count
+-------------------+-------
+                 2 |     9
+                 4 |     8
+                 6 |     5
+                 5 |     4
+                 3 |     3
+                 8 |     3
+                 7 |     2
+                 9 |     2
+(8 rows)
+```

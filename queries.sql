@@ -50,12 +50,26 @@ SELECT DISTINCT party FROM observation;
 -- 7. group rows together by a column value (your choice) and use an aggregate
 ---   function to calculate something about that group
 
-SELECT party, COUNT(*)
+SELECT
+    ROUND(risk_free_rate) AS risk_free_percent,
+    COUNT(*) AS count
 FROM observation
-GROUP BY party
+GROUP BY risk_free_percent
+ORDER BY risk_free_percent
 ;
 
--- 8. now, using the same grouping query or creating another one, find a way to filter the query results based on the values for the groups 
+-- 8. now, using the same grouping query or creating another one, find a way to
+--    filter the query results based on the values for the groups 
+
+SELECT
+    ROUND(risk_free_rate) AS risk_free_percent,
+    COUNT(*) AS count
+FROM observation
+GROUP BY risk_free_percent
+HAVING COUNT(*) > 1
+ORDER BY count DESC
+;
+
 -- 9. write a comment about your query 9
 -- 10. write a comment about your query 10
 -- 11. write a comment about your query 11
