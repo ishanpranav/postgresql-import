@@ -1,7 +1,7 @@
 # Asset classes
 
-This is a demonstration of SQL features for the NYU CSCI 479 Data Management
-and Analysis course.
+This is a demonstration of PostgreSQL import features for the NYU CSCI 479 Data
+Management and Analysis course.
 
 ## License
 
