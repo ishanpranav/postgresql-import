@@ -259,5 +259,57 @@ ADD COLUMN debt_return DOUBLE PRECISION;
 ```
 
 ```
+ALTER TABLE
+```
+
+```
+...
+ debt_return    | double precision |           |          |
+...
+```
+
+5. Then, we can assign values to the new column.
+
+First, we use the `LAG` function over the chronological observations to gather
+each `debt_value` entry, alongside its `previous_debt_value` and save these
+results in the `debt_value_lagging` expression.
+
+Then, we update the `observation` table to contain the percent-change in the
+debt index for all rows except the first. The first row is `NULL`.
+
+```sql
+
+WITH debt_value_lagging AS (
+    SELECT
+        "date",
+        debt_value,
+        LAG(debt_value) OVER (ORDER BY "date") AS previous_debt_value
+    FROM observation
+)
+UPDATE observation
+SET debt_return = ((debt_value_lagging.debt_value / previous_debt_value) - 1) * 100
+FROM debt_value_lagging
+WHERE observation.date = debt_value_lagging.date
+;
+```
+
+```
+UPDATE 37
+```
+
+```
+    date    | debt_value | real_value | equity_return | risk_free_rate | party |     debt_return
+------------+------------+------------+---------------+----------------+-------+---------------------
+ 1987-01-01 |     357.67 |      68.34 |          5.25 |           8.83 | R     |
+ 1988-01-01 |     392.57 |      73.28 |         16.61 |           9.14 | R     |    9.75759778566835
+ 1989-01-01 |     447.98 |      76.50 |         31.69 |           7.93 | R     |   14.11468018442571
+ 1990-01-01 |     481.00 |      75.97 |          -3.1 |           8.08 | R     |    7.37086477074869
+...
+```
+
+6. Next, we can examine the unique values in the `party` column to confirm that
+  only the Democratic and Republican parties are represented here.
+
+```
 
 ```

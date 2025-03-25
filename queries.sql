@@ -28,7 +28,24 @@ ADD COLUMN debt_return DOUBLE PRECISION;
 ;
 
 -- 5. set the value of that new column
+
+WITH debt_value_lagging AS (
+    SELECT
+        "date",
+        debt_value,
+        LAG(debt_value) OVER (ORDER BY "date") AS previous_debt_value
+    FROM observation
+)
+UPDATE observation
+SET debt_return = ((debt_value_lagging.debt_value / previous_debt_value) - 1) * 100
+FROM debt_value_lagging
+WHERE observation.date = debt_value_lagging.date
+;
+
 -- 6. show only the unique (non duplicates) of a column of your choice
+
+
+
 -- 7.group rows together by a column value (your choice) and use an aggregate function to calculate something about that group 
 -- 8. now, using the same grouping query or creating another one, find a way to filter the query results based on the values for the groups 
 -- 9. write a comment about your query 9
