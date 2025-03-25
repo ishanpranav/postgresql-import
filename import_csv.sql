@@ -5,9 +5,9 @@
 COPY observation (
   "date",
   debt_value,
+  risk_free_rate,
   real_value,
   equity_return,
-  risk_free_rate,
   party
 )
 FROM 'data/fredgraph.csv' WITH (FORMAT 'csv', DELIMITER ',', HEADER)

@@ -108,9 +108,9 @@ We can import all columns from the `fredgraph.csv` file.
 COPY observation (
   "date",
   debt_value,
+  risk_free_rate,
   real_value,
   equity_return,
-  risk_free_rate,
   party
 )
 FROM 'data/fredgraph.csv' WITH (FORMAT 'csv', DELIMITER ',', HEADER)
@@ -120,6 +120,8 @@ FROM 'data/fredgraph.csv' WITH (FORMAT 'csv', DELIMITER ',', HEADER)
 ## Database information
 
 First, we can execute PostgreSQL instructions to examine the instance, databases, and tables.
+
+The `\l` instruction lists the databases in the PostgreSQL instance.
 
 ```
 \l
@@ -138,6 +140,8 @@ postgres-# \l
 (3 rows)
 ```
 
+The `\dt` instruction lists the tables in the current database.
+
 ```
 \dt
 ```
@@ -149,6 +153,8 @@ postgres-# \l
  public | observation | table | postgres
 (1 row)
 ```
+
+The `\d` instruction describes the given table.
 
 ```
 \d observation
@@ -169,3 +175,25 @@ Indexes:
 
 ## Query results
 
+We can calculate the total number of rows in the database.
+
+```sql
+SELECT COUNT(*) FROM observation;
+```
+
+```
+ count
+-------
+    37
+(1 row)
+```
+
+We can also display the date, S&P 500 Index total return, and 10-year U.S.
+Treasury yield for the first 15 years in the time series.
+
+```sql
+SELECT ("date", equity_return, risk_free_rate)
+FROM observation
+LIMIT 15
+;
+```

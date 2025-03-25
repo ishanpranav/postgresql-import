@@ -1,7 +1,15 @@
--- write your queries underneath each number:
- 
+-- queries.sql
+-- Copyright (c) 2025 Ishan Pranav
+-- Licensed under the MIT license.
+
 -- 1. the total number of rows in the database
+
+SELECT COUNT(*) FROM observation;
+
 -- 2. show the first 15 rows, but only display 3 columns (your choice)
+
+
+
 -- 3. do the same as above, but chose a column to sort on, and sort in descending order
 -- 4. add a new column without a default value
 -- 5. set the value of that new column
