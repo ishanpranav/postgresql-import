@@ -466,4 +466,26 @@ In this sample, although the average risk-free rates are close (about 4 percent
 compared with around 5 percent), the average equity returns are very different
 (around 15 percent compared with around 8 percent).
 
-12. 
+12. Finally, we can compute the Sharpe ratio of the equity market.
+
+```sql
+SELECT
+    AVG(equity_return) AS mu,
+    AVG(risk_free_rate) AS r,
+    STDDEV(equity_return) AS sigma,
+    (AVG(equity_return) - AVG(risk_free_rate)) / STDDEV(equity_return)
+        AS sharpe_ratio
+FROM observation
+;
+```
+
+```
+         mu         |         r         |       sigma        |    sharpe_ratio
+--------------------+-------------------+--------------------+---------------------
+ 12.227027027027026 | 4.481351351351351 | 17.281741949375498 | 0.44819993831441146
+(1 row)
+```
+
+From this sample, in the equity market the average return was about 12 percent,
+the average risk-free rate was about 4 percent, and the average volatility was
+about 17 percent. This gives a Sharpe ratio of 0.44.

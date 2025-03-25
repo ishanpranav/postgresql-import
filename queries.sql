@@ -102,4 +102,13 @@ GROUP BY party
 ORDER BY party
 ;
 
--- 12. sharpe ratios
+-- 12. portfolio statistics and sharpe ratio
+
+SELECT
+    AVG(equity_return) AS mu,
+    AVG(risk_free_rate) AS r,
+    STDDEV(equity_return) AS sigma,
+    (AVG(equity_return) - AVG(risk_free_rate)) / STDDEV(equity_return)
+        AS sharpe_ratio
+FROM observation
+;
