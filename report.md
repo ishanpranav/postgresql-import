@@ -391,3 +391,47 @@ ORDER BY count DESC
                  9 |     2
 (8 rows)
 ```
+
+9. Let's group years by political party to see the distribution.
+
+```sql
+SELECT
+  party,
+  COUNT(*) AS count
+FROM observation
+GROUP BY party
+ORDER BY count DESC
+;
+```
+
+```
+ party | count
+-------+-------
+ D     |    19
+ R     |    18
+(2 rows)
+```
+
+10. Now, we can count only the years with positive equity returns to determine
+  which party coincided with positive returns more often.
+
+```sql
+SELECT
+    party,
+    COUNT(*) AS count
+FROM observation
+WHERE equity_return > 0
+GROUP BY party
+ORDER BY count DESC
+;
+```
+
+```
+ party | count
+-------+-------
+ D     |    17
+ R     |    13
+(2 rows)
+```
+
+11. 

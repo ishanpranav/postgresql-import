@@ -70,7 +70,26 @@ HAVING COUNT(*) > 1
 ORDER BY count DESC
 ;
 
--- 9. write a comment about your query 9
--- 10. write a comment about your query 10
+-- 9. number of years per party
+
+SELECT
+  party,
+  COUNT(*) AS count
+FROM observation
+GROUP BY party
+ORDER BY count DESC
+;
+
+-- 10. number of years with positive equity returns by party
+
+SELECT
+    party,
+    COUNT(*) AS count
+FROM observation
+WHERE equity_return > 0
+GROUP BY party
+ORDER BY count DESC
+;
+
 -- 11. write a comment about your query 11
 -- 12. write a comment about your query 12
