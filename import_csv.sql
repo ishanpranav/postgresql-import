@@ -10,5 +10,5 @@ COPY observation (
   equity_return,
   party
 )
-FROM 'data/fredgraph.csv' WITH (FORMAT 'csv', DELIMITER ',', HEADER)
+FROM 'fredgraph.csv' WITH (FORMAT 'csv', DELIMITER ',', HEADER)
 ;

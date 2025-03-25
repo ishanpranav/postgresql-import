@@ -50,6 +50,10 @@ SELECT DISTINCT party FROM observation;
 -- 7. group rows together by a column value (your choice) and use an aggregate
 ---   function to calculate something about that group
 
+SELECT party, COUNT(*)
+FROM observation
+GROUP BY party
+;
 
 -- 8. now, using the same grouping query or creating another one, find a way to filter the query results based on the values for the groups 
 -- 9. write a comment about your query 9

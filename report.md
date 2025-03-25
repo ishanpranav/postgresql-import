@@ -113,7 +113,7 @@ COPY observation (
   equity_return,
   party
 )
-FROM 'data/fredgraph.csv' WITH (FORMAT 'csv', DELIMITER ',', HEADER)
+FROM 'fredgraph.csv' WITH (FORMAT 'csv', DELIMITER ',', HEADER)
 ;
 ```
 
@@ -324,9 +324,18 @@ SELECT DISTINCT party FROM observation;
 7. Now, we can group years by political party and count the number of years in each group.
 
 ```sql
-
+SELECT party, COUNT(*)
+FROM observation
+GROUP BY party
+;
 ```
 
 ```
-
+ party | count
+-------+-------
+ R     |    18
+ D     |    19
+(2 rows)
 ```
+
+8. Finally, 
