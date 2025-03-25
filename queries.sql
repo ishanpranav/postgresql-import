@@ -8,10 +8,25 @@ SELECT COUNT(*) FROM observation;
 
 -- 2. show the first 15 rows, but only display 3 columns (your choice)
 
-
+SELECT "date", equity_return, risk_free_rate
+FROM observation
+LIMIT 15
+;
 
 -- 3. do the same as above, but chose a column to sort on, and sort in descending order
+
+SELECT "date", equity_return, risk_free_rate
+FROM observation
+ORDER BY "date" DESC
+LIMIT 15
+;
+
 -- 4. add a new column without a default value
+
+ALTER TABLE observation
+ADD COLUMN debt_return DOUBLE PRECISION;
+;
+
 -- 5. set the value of that new column
 -- 6. show only the unique (non duplicates) of a column of your choice
 -- 7.group rows together by a column value (your choice) and use an aggregate function to calculate something about that group 

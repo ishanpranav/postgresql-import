@@ -175,7 +175,7 @@ Indexes:
 
 ## Query results
 
-We can calculate the total number of rows in the database.
+1. We can calculate the total number of rows in the database.
 
 ```sql
 SELECT COUNT(*) FROM observation;
@@ -188,12 +188,76 @@ SELECT COUNT(*) FROM observation;
 (1 row)
 ```
 
-We can also display the date, S&P 500 Index total return, and 10-year U.S.
-Treasury yield for the first 15 years in the time series.
+2. We can also display the date, S&P 500 Index total return, and 10-year U.S.
+  Treasury yield for the first 15 years in the time series.
 
 ```sql
-SELECT ("date", equity_return, risk_free_rate)
+SELECT "date", equity_return, risk_free_rate
 FROM observation
 LIMIT 15
 ;
+```
+
+```
+    date    | equity_return | risk_free_rate
+------------+---------------+----------------
+ 1987-01-01 |          5.25 |           8.83
+ 1988-01-01 |         16.61 |           9.14
+ 1989-01-01 |         31.69 |           7.93
+ 1990-01-01 |          -3.1 |           8.08
+ 1991-01-01 |         30.47 |           6.71
+ 1992-01-01 |          7.62 |            6.7
+ 1993-01-01 |         10.08 |           5.83
+ 1994-01-01 |          1.32 |           7.84
+ 1995-01-01 |         37.58 |           5.58
+ 1996-01-01 |         22.96 |           6.43
+ 1997-01-01 |         33.36 |           5.75
+ 1998-01-01 |         28.58 |           4.65
+ 1999-01-01 |         21.04 |           6.45
+ 2000-01-01 |          -9.1 |           5.12
+ 2001-01-01 |        -11.89 |           5.07
+(15 rows)
+```
+
+3. We can sort the observations in reverse chronological order, choosing only
+  the most recent 15 years.
+
+```sql
+SELECT "date", equity_return, risk_free_rate
+FROM observation
+ORDER BY "date" DESC
+LIMIT 15
+;
+```
+
+```
+  date    | equity_return | risk_free_rate
+------------+---------------+----------------
+2023-01-01 |         26.29 |           3.88
+2022-01-01 |        -18.11 |           3.88
+2021-01-01 |         28.71 |           1.52
+2020-01-01 |          18.4 |           0.93
+2019-01-01 |         31.49 |           1.92
+2018-01-01 |         -4.38 |           2.69
+2017-01-01 |         21.83 |            2.4
+2016-01-01 |         11.96 |           2.45
+2015-01-01 |          1.38 |           2.27
+2014-01-01 |         13.69 |           2.17
+2013-01-01 |         32.39 |           3.04
+2012-01-01 |            16 |           1.78
+2011-01-01 |          2.11 |           1.89
+2010-01-01 |         15.06 |            3.3
+ 2009-01-01 |         26.46 |           3.85
+```
+
+4. Next, we can add a new column for the total return of the ICE BofA U.S. Corporate Index.
+
+```sql
+ALTER TABLE observation
+ADD COLUMN debt_return DOUBLE PRECISION;
+;
+```
+
+```
+
 ```
