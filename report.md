@@ -119,4 +119,53 @@ FROM 'data/fredgraph.csv' WITH (FORMAT 'csv', DELIMITER ',', HEADER)
 
 ## Database information
 
+First, we can execute PostgreSQL instructions to examine the instance, databases, and tables.
+
+```
+\l
+```
+
+```
+postgres-# \l
+                                                List of databases
+   Name    |  Owner   | Encoding | Locale Provider | Collate | Ctype | Locale | ICU Rules |   Access privileges
+-----------+----------+----------+-----------------+---------+-------+--------+-----------+-----------------------
+ postgres  | postgres | UTF8     | libc            | en-US   | en-US |        |           |
+ template0 | postgres | UTF8     | libc            | en-US   | en-US |        |           | =c/postgres          +
+           |          |          |                 |         |       |        |           | postgres=CTc/postgres
+ template1 | postgres | UTF8     | libc            | en-US   | en-US |        |           | =c/postgres          +
+           |          |          |                 |         |       |        |           | postgres=CTc/postgres
+(3 rows)
+```
+
+```
+\dt
+```
+
+```
+            List of relations
+ Schema |    Name     | Type  |  Owner
+--------+-------------+-------+----------
+ public | observation | table | postgres
+(1 row)
+```
+
+```
+\d observation
+```
+
+```
+     Column     |       Type       | Collation | Nullable | Default
+----------------+------------------+-----------+----------+---------
+ date           | date             |           | not null |
+ debt_value     | numeric(10,2)    |           | not null |
+ real_value     | numeric(10,2)    |           | not null |
+ equity_return  | double precision |           | not null |
+ risk_free_rate | double precision |           | not null |
+ party          | character(2)     |           | not null |
+Indexes:
+    "observation_pkey" PRIMARY KEY, btree (date)
+```
+
 ## Query results
+
