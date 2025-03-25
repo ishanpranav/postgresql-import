@@ -278,16 +278,15 @@ Then, we update the `observation` table to contain the percent-change in the
 debt index for all rows except the first. The first row is `NULL`.
 
 ```sql
-
 WITH debt_value_lagging AS (
     SELECT
         "date",
-        debt_value,
-        LAG(debt_value) OVER (ORDER BY "date") AS previous_debt_value
+        debt_value AS current,
+        LAG(debt_value) OVER (ORDER BY "date") AS previous
     FROM observation
 )
 UPDATE observation
-SET debt_return = ((debt_value_lagging.debt_value / previous_debt_value) - 1) * 100
+SET debt_return = ((current / previous) - 1) * 100
 FROM debt_value_lagging
 WHERE observation.date = debt_value_lagging.date
 ;
@@ -309,6 +308,24 @@ UPDATE 37
 
 6. Next, we can examine the unique values in the `party` column to confirm that
   only the Democratic and Republican parties are represented here.
+
+```sql
+SELECT DISTINCT party FROM observation;
+```
+
+```
+ party
+-------
+ R
+ D
+(2 rows)
+```
+
+7. Now, we can group years by political party and count the number of years in each group.
+
+```sql
+
+```
 
 ```
 

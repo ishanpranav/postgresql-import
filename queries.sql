@@ -13,7 +13,8 @@ FROM observation
 LIMIT 15
 ;
 
--- 3. do the same as above, but chose a column to sort on, and sort in descending order
+-- 3. do the same as above, but chose a column to sort on, and sort in
+--    descending order
 
 SELECT "date", equity_return, risk_free_rate
 FROM observation
@@ -32,21 +33,24 @@ ADD COLUMN debt_return DOUBLE PRECISION;
 WITH debt_value_lagging AS (
     SELECT
         "date",
-        debt_value,
-        LAG(debt_value) OVER (ORDER BY "date") AS previous_debt_value
+        debt_value AS current,
+        LAG(debt_value) OVER (ORDER BY "date") AS previous
     FROM observation
 )
 UPDATE observation
-SET debt_return = ((debt_value_lagging.debt_value / previous_debt_value) - 1) * 100
+SET debt_return = ((current / previous) - 1) * 100
 FROM debt_value_lagging
 WHERE observation.date = debt_value_lagging.date
 ;
 
 -- 6. show only the unique (non duplicates) of a column of your choice
 
+SELECT DISTINCT party FROM observation;
+
+-- 7. group rows together by a column value (your choice) and use an aggregate
+---   function to calculate something about that group
 
 
--- 7.group rows together by a column value (your choice) and use an aggregate function to calculate something about that group 
 -- 8. now, using the same grouping query or creating another one, find a way to filter the query results based on the values for the groups 
 -- 9. write a comment about your query 9
 -- 10. write a comment about your query 10
